@@ -93,7 +93,7 @@ def inference_resnet(IMAGENET_PATH):
                         transforms.CenterCrop(224),
                         transforms.ToTensor()
                     ]))
-    dataset_loader = DataLoader(dataset, batch_size=5)
+    dataset_loader = DataLoader(dataset, batch_size=10)
     device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
     with torch.no_grad():
         model_type = models.resnet50
@@ -101,7 +101,7 @@ def inference_resnet(IMAGENET_PATH):
         model = DataParallel(model)
         model.eval()
     epsilon = 1
-    num = 5
+    num = 10
     for X,y in dataset_loader:
         break
     X.detach_()
