@@ -94,7 +94,7 @@ def inference_inception(IMAGENET_PATH):
                         transforms.CenterCrop(299),
                         transforms.ToTensor()
                     ]))
-    dataset_loader = DataLoader(dataset, batch_size=5)
+    dataset_loader = DataLoader(dataset, batch_size=10)
     device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
     with torch.no_grad():
         model_type = models.inception_v3
@@ -103,7 +103,7 @@ def inference_inception(IMAGENET_PATH):
         model.eval()
     model = model_type(pretrained=True).float().cuda()
     epsilon = 1.0
-    num = 5
+    num = 10
     for X,y in dataset_loader:
         break
     X.detach_()
