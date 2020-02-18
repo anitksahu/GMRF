@@ -101,7 +101,6 @@ def inference_inception(IMAGENET_PATH):
         model = model_type(pretrained=True).float().cuda()
         model = DataParallel(model)
         model.eval()
-    model = model_type(pretrained=True).float().cuda()
     epsilon = 1.0
     num = 10
     for X,y in dataset_loader:
@@ -111,8 +110,8 @@ def inference_inception(IMAGENET_PATH):
     for i in range(num):
         pert = torch.randn(1, X.shape[1], X.shape[2], X.shape[3])
         dX = epsilon * pert
-        output1, _ = model((X + dX).to(device))
-        output2, _ = model((X - dX).to(device))
+        output1 = model((X + dX).to(device))
+        output2 = model((X - dX).to(device))
         G = G.to(device) + ((nn.CrossEntropyLoss(reduction="none")(output1, y.to(device)) - nn.CrossEntropyLoss(reduction="none")(output2, y.to(device))).view(-1,1,1,1)/(2*epsilon))*pert.to(device)
     G = G/num
     alpha, beta, gamma, kappa, nu, kappa1 = newton(G)
